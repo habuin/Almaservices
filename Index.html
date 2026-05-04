@@ -1,0 +1,1516 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0D1B2A">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Almaservices</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Fraunces:opsz,wght@9..144,300;9..144,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0D1B2A; --ink-mid:#1A3250; --ink-soft:#2A4A6A;
+  --lime:#C8F135; --lime-dim:#A8D020;
+  --paper:#F7F5F0; --card:#FFFFFF;
+  --muted:#8A97AA; --border:#E4E0D8;
+  --warn:#FF6B35; --ok:#2EC27E; --red:#E53935;
+  --r:18px; --rs:12px;
+  --sh:0 2px 16px rgba(13,27,42,0.10);
+  --sh-lg:0 8px 40px rgba(13,27,42,0.18);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;overscroll-behavior:none;}
+body{font-family:'Outfit',sans-serif;background:var(--paper);color:var(--ink);max-width:430px;margin:0 auto;min-height:100vh;overflow-x:hidden;}
+
+.screen{display:none;min-height:100vh;flex-direction:column;animation:fi .22s ease;}
+.screen.active{display:flex;}
+@keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* ─── SPLASH ─── */
+#s-splash{background:var(–ink);align-items:center;justify-content:center;padding:48px 32px;position:relative;overflow:hidden;}
+#s-splash::before{content:’’;position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(200,241,53,0.10) 0%,transparent 65%);top:-150px;right:-150px;pointer-events:none;}
+#s-splash::after{content:’’;position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(200,241,53,0.06) 0%,transparent 65%);bottom:-80px;left:-60px;pointer-events:none;}
+.sp-inner{display:flex;flex-direction:column;align-items:center;gap:28px;position:relative;z-index:1;}
+.sp-mark{width:84px;height:84px;border-radius:26px;background:var(–lime);display:flex;align-items:center;justify-content:center;box-shadow:0 0 56px rgba(200,241,53,0.38);}
+.sp-mark svg{width:44px;height:44px;}
+.sp-title{text-align:center;}
+.sp-title h1{font-family:‘Fraunces’,serif;font-size:2.5rem;font-weight:600;color:var(–card);letter-spacing:-1px;line-height:1;}
+.sp-title h1 em{color:var(–lime);font-style:normal;}
+.sp-title p{color:rgba(255,255,255,0.38);font-size:0.74rem;letter-spacing:2.5px;text-transform:uppercase;margin-top:8px;}
+.sp-btn{background:var(–lime);color:var(–ink);border:none;border-radius:50px;padding:15px 52px;font-family:‘Outfit’,sans-serif;font-weight:700;font-size:0.95rem;cursor:pointer;box-shadow:0 4px 24px rgba(200,241,53,0.42);transition:transform .15s;}
+.sp-btn:active{transform:scale(0.96);}
+.sp-ver{color:rgba(255,255,255,0.18);font-size:0.68rem;letter-spacing:1px;}
+
+/* ─── ROLE SELECT ─── */
+#s-role{background:var(–paper);justify-content:center;padding:40px 22px;gap:13px;}
+.role-hd{text-align:center;margin-bottom:10px;}
+.role-hd h2{font-family:‘Fraunces’,serif;font-size:1.75rem;font-weight:600;color:var(–ink);}
+.role-hd p{color:var(–muted);font-size:0.86rem;margin-top:5px;}
+.role-card{background:var(–card);border-radius:var(–r);padding:18px 20px;display:flex;align-items:center;gap:14px;cursor:pointer;border:2px solid transparent;transition:all .18s;box-shadow:var(–sh);}
+.role-card:active{border-color:var(–lime);transform:scale(0.985);}
+.ricon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;}
+.ri-op{background:linear-gradient(135deg,var(–lime),var(–lime-dim));}
+.ri-mg{background:linear-gradient(135deg,var(–ink),var(–ink-mid));}
+.ri-ad{background:linear-gradient(135deg,#FF6B35,#cc4e1a);}
+.rtext h3{font-size:0.98rem;font-weight:700;}
+.rtext p{font-size:0.76rem;color:var(–muted);margin-top:2px;}
+.rarrow{color:var(–muted);font-size:1.2rem;margin-left:auto;}
+
+/* ─── PIN SCREEN ─── */
+#s-pin{background:var(–ink);align-items:center;justify-content:space-between;padding:0 0 32px;}
+.pin-top{display:flex;flex-direction:column;align-items:center;padding:48px 24px 24px;gap:6px;width:100%;}
+.pin-avatar{width:68px;height:68px;border-radius:50%;background:rgba(200,241,53,0.15);border:2px solid rgba(200,241,53,0.3);display:flex;align-items:center;justify-content:center;font-family:‘Fraunces’,serif;font-size:1.4rem;font-weight:600;color:var(–lime);margin-bottom:8px;}
+.pin-name{font-family:‘Fraunces’,serif;font-size:1.4rem;font-weight:600;color:var(–card);}
+.pin-subtitle{font-size:0.78rem;color:rgba(255,255,255,0.4);margin-top:2px;}
+.pin-dots{display:flex;gap:16px;margin-top:24px;}
+.pin-dot{width:16px;height:16px;border-radius:50%;border:2px solid rgba(255,255,255,0.25);transition:all .2s;}
+.pin-dot.filled{background:var(–lime);border-color:var(–lime);}
+.pin-dot.error{background:var(–red);border-color:var(–red);animation:shake .4s ease;}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+.pin-error{color:var(–red);font-size:0.78rem;font-weight:600;height:18px;margin-top:6px;transition:opacity .2s;}
+.pin-error.hidden{opacity:0;}
+
+/* ─── KEYPAD ─── */
+.keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:0 32px;width:100%;}
+.key{
+aspect-ratio:1;border-radius:50%;border:none;
+background:rgba(255,255,255,0.08);color:var(–card);
+font-family:‘Outfit’,sans-serif;font-size:1.5rem;font-weight:600;
+cursor:pointer;transition:background .12s,transform .1s;
+display:flex;align-items:center;justify-content:center;
+}
+.key:active{background:rgba(200,241,53,0.2);transform:scale(0.92);}
+.key.action{font-size:1rem;font-weight:700;color:rgba(255,255,255,0.5);}
+.key.del{font-size:1.3rem;}
+.pin-links{display:flex;gap:24px;padding:16px 0 0;justify-content:center;}
+.pin-link{background:none;border:none;color:rgba(255,255,255,0.35);font-size:0.75rem;cursor:pointer;font-family:‘Outfit’,sans-serif;transition:color .15s;}
+.pin-link:active{color:var(–lime);}
+
+/* ─── CHANGE PIN ─── */
+#s-change-pin{background:var(–ink);align-items:center;justify-content:space-between;padding:0 0 32px;}
+.cp-top{display:flex;flex-direction:column;align-items:center;padding:48px 24px 24px;gap:4px;width:100%;}
+.cp-step{font-size:0.7rem;color:rgba(255,255,255,0.35);font-weight:600;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;}
+.cp-title{font-family:‘Fraunces’,serif;font-size:1.3rem;font-weight:600;color:var(–card);text-align:center;}
+.cp-sub{font-size:0.78rem;color:rgba(255,255,255,0.4);margin-top:4px;text-align:center;}
+.cp-dots{display:flex;gap:16px;margin-top:20px;}
+
+/* ─── RECOVERY ─── */
+#s-recovery{background:var(–ink);padding:0;}
+.rec-scroll{flex:1;overflow-y:auto;padding:48px 24px 24px;}
+.rec-icon{font-size:2.5rem;text-align:center;margin-bottom:16px;}
+.rec-title{font-family:‘Fraunces’,serif;font-size:1.4rem;font-weight:600;color:var(–card);text-align:center;}
+.rec-sub{font-size:0.82rem;color:rgba(255,255,255,0.4);text-align:center;margin-top:6px;line-height:1.6;margin-bottom:28px;}
+.rec-field{margin-bottom:14px;}
+.rec-field label{display:block;font-size:0.68rem;font-weight:700;color:rgba(255,255,255,0.4);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.8px;}
+.rec-field input{width:100%;background:rgba(255,255,255,0.08);border:1.5px solid rgba(255,255,255,0.12);border-radius:var(–rs);padding:12px 14px;font-family:‘Outfit’,sans-serif;font-size:0.9rem;color:var(–card);outline:none;transition:border-color .2s;}
+.rec-field input:focus{border-color:var(–lime);}
+.rec-field input::placeholder{color:rgba(255,255,255,0.2);}
+.rec-btn{width:100%;background:var(–lime);color:var(–ink);border:none;border-radius:50px;padding:14px;font-family:‘Outfit’,sans-serif;font-weight:700;font-size:0.9rem;cursor:pointer;margin-top:8px;transition:transform .15s;}
+.rec-btn:active{transform:scale(0.97);}
+.rec-back{display:block;text-align:center;margin-top:16px;color:rgba(255,255,255,0.3);font-size:0.78rem;cursor:pointer;background:none;border:none;font-family:‘Outfit’,sans-serif;width:100%;}
+
+/* ─── TOPBAR ─── */
+.topbar{background:var(–ink);padding:14px 18px 12px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;gap:10px;}
+.topbar-logo{font-family:‘Fraunces’,serif;font-weight:600;font-size:1.05rem;color:var(–card);}
+.topbar-logo em{color:var(–lime);font-style:normal;}
+.tbtn{background:none;border:none;cursor:pointer;color:var(–card);font-size:1.1rem;padding:6px;border-radius:8px;}
+.tbtn:active{background:rgba(255,255,255,0.1);}
+.tpill{background:rgba(200,241,53,0.15);color:var(–lime);font-size:0.68rem;font-weight:600;padding:4px 10px;border-radius:20px;max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+
+/* ─── SCROLL BODY ─── */
+.scroll-body{flex:1;overflow-y:auto;padding:18px 16px 110px;-webkit-overflow-scrolling:touch;}
+
+/* ─── CARDS ─── */
+.slabel{font-size:0.68rem;font-weight:700;color:var(–muted);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:10px;}
+.hero-card{background:linear-gradient(135deg,var(–ink) 0%,var(–ink-mid) 100%);border-radius:var(–r);padding:20px;margin-bottom:18px;position:relative;overflow:hidden;}
+.hero-card::after{content:’’;position:absolute;right:-30px;top:-30px;width:130px;height:130px;border-radius:50%;background:rgba(200,241,53,0.08);pointer-events:none;}
+.hero-card h2{color:var(–card);font-size:1.15rem;font-weight:700;}
+.hero-card p{color:rgba(255,255,255,0.45);font-size:0.78rem;margin-top:3px;}
+.hero-date{color:var(–lime);font-size:0.75rem;margin-top:10px;font-weight:600;}
+.sync-row{display:flex;align-items:center;gap:6px;margin-top:8px;}
+.sdot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.sdot.ok{background:var(–lime);}
+.sdot.off{background:rgba(255,255,255,0.25);}
+.stxt{color:rgba(255,255,255,0.45);font-size:0.72rem;}
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px;}
+.stat-box{background:var(–card);border-radius:var(–rs);padding:15px;box-shadow:var(–sh);}
+.stat-box .sn{font-family:‘Fraunces’,serif;font-size:2rem;font-weight:600;color:var(–ink);line-height:1;}
+.stat-box .sn.lime{color:var(–lime-dim);}
+.stat-box .sl{font-size:0.72rem;color:var(–muted);margin-top:3px;}
+.job-card{background:var(–card);border-radius:var(–rs);padding:14px 16px;margin-bottom:8px;box-shadow:var(–sh);display:flex;align-items:center;gap:12px;border-left:3px solid var(–border);transition:transform .15s;}
+.job-card.done{border-left-color:var(–ok);}
+.jc-info{flex:1;}
+.jc-info h4{font-size:0.9rem;font-weight:600;color:var(–ink);}
+.jc-info p{font-size:0.74rem;color:var(–muted);margin-top:2px;}
+.badge{font-size:0.65rem;font-weight:700;padding:3px 9px;border-radius:20px;}
+.badge-ok{background:#E8FAF3;color:var(–ok);}
+.badge-sync{background:rgba(200,241,53,0.15);color:var(–lime-dim);}
+.badge-local{background:#FFF3EE;color:var(–warn);}
+
+/* ─── FAB & BNAV ─── */
+.fab{position:fixed;bottom:86px;right:18px;width:60px;height:60px;border-radius:50%;background:var(–lime);border:none;cursor:pointer;box-shadow:0 6px 28px rgba(200,241,53,0.5);font-size:1.6rem;color:var(–ink);z-index:200;transition:transform .15s;display:flex;align-items:center;justify-content:center;}
+.fab:active{transform:scale(0.9);}
+.bnav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:var(–card);border-top:1px solid var(–border);display:flex;z-index:150;padding-bottom:env(safe-area-inset-bottom,4px);}
+.bni{flex:1;display:flex;flex-direction:column;align-items:center;padding:9px 0 6px;cursor:pointer;gap:2px;background:none;border:none;}
+.bni .icon{font-size:1.25rem;transition:transform .2s;}
+.bni .label{font-size:0.58rem;color:var(–muted);font-weight:600;letter-spacing:0.5px;text-transform:uppercase;}
+.bni.active .label{color:var(–lime-dim);}
+.bni.active .icon{transform:scale(1.15);}
+
+/* ─── FORM ─── */
+.form-card{background:var(–card);border-radius:var(–r);padding:18px;margin-bottom:14px;box-shadow:var(–sh);}
+.form-card-title{font-size:0.88rem;font-weight:700;color:var(–ink);margin-bottom:14px;display:flex;align-items:center;gap:7px;}
+.fg{margin-bottom:12px;}
+.fg:last-child{margin-bottom:0;}
+label.fl{display:block;font-size:0.68rem;font-weight:700;color:var(–muted);margin-bottom:5px;text-transform:uppercase;letter-spacing:0.8px;}
+input[type=text],input[type=time],input[type=date],select,textarea{width:100%;border:1.5px solid var(–border);border-radius:var(–rs);padding:11px 13px;font-family:‘Outfit’,sans-serif;font-size:0.88rem;color:var(–ink);background:#FAFAF7;outline:none;transition:border-color .2s;appearance:none;-webkit-appearance:none;}
+input:focus,select:focus,textarea:focus{border-color:var(–lime-dim);background:var(–card);}
+textarea{resize:none;height:76px;line-height:1.5;}
+.auto-field{background:rgba(200,241,53,0.08);border:1.5px solid rgba(200,241,53,0.3);border-radius:var(–rs);padding:11px 13px;display:flex;align-items:center;gap:8px;}
+.auto-field .afl{font-size:0.8rem;color:var(–ink-soft);font-weight:500;flex:1;}
+.auto-field .afb{font-size:0.65rem;background:var(–lime);color:var(–ink);padding:3px 8px;border-radius:10px;font-weight:700;}
+.gps-row{display:flex;align-items:center;gap:8px;font-size:0.8rem;color:var(–muted);}
+.gps-dot{width:8px;height:8px;border-radius:50%;background:var(–muted);flex-shrink:0;transition:background .3s;}
+.gps-dot.acquiring{background:#F0A500;animation:pulse 1s infinite;}
+.gps-dot.ok{background:var(–ok);}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+.pzone{border:2px dashed var(–border);border-radius:var(–rs);padding:18px;text-align:center;cursor:pointer;background:#FAFAF7;}
+.pzone:active{border-color:var(–lime-dim);}
+.pzone .pz-ico{font-size:1.8rem;margin-bottom:6px;}
+.pzone p{font-size:0.75rem;color:var(–muted);}
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px;}
+.pthumb-wrap{position:relative;}
+.pthumb-wrap img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px;display:block;}
+.pdel{position:absolute;top:-5px;right:-5px;background:var(–warn);color:white;border:none;border-radius:50%;width:20px;height:20px;font-size:0.6rem;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.abar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:var(–card);border-top:1px solid var(–border);padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));display:flex;gap:10px;z-index:200;}
+.btn{flex:1;border:none;border-radius:50px;padding:14px;font-family:‘Outfit’,sans-serif;font-weight:700;font-size:0.88rem;cursor:pointer;transition:all .15s;}
+.btn-primary{background:var(–lime);color:var(–ink);}
+.btn-ghost{background:var(–paper);color:var(–ink);border:1.5px solid var(–border);}
+.btn:active{transform:scale(0.97);}
+
+/* ─── MANAGER ─── */
+.kpi3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:18px;}
+.kpi-box{background:var(–card);border-radius:var(–rs);padding:14px 10px;text-align:center;box-shadow:var(–sh);}
+.kpi-box .kn{font-family:‘Fraunces’,serif;font-size:1.6rem;font-weight:600;color:var(–ink);line-height:1;}
+.kpi-box .kn.g{color:var(–ok);}
+.kpi-box .kn.o{color:var(–warn);}
+.kpi-box .kl{font-size:0.62rem;color:var(–muted);margin-top:3px;line-height:1.3;}
+.chips{display:flex;gap:7px;overflow-x:auto;padding-bottom:4px;margin-bottom:16px;scrollbar-width:none;}
+.chips::-webkit-scrollbar{display:none;}
+.chip{background:var(–card);border:1.5px solid var(–border);border-radius:20px;padding:6px 14px;font-size:0.75rem;font-weight:600;cursor:pointer;white-space:nowrap;transition:all .15s;color:var(–muted);}
+.chip.active{background:var(–ink);border-color:var(–ink);color:var(–card);}
+.wrow{background:var(–card);border-radius:var(–rs);padding:14px 16px;margin-bottom:8px;display:flex;align-items:center;gap:12px;box-shadow:var(–sh);cursor:pointer;transition:transform .15s;}
+.wrow:active{transform:scale(0.98);}
+.wavatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(–ink),var(–ink-mid));display:flex;align-items:center;justify-content:center;color:var(–lime);font-weight:800;font-size:0.85rem;flex-shrink:0;}
+.winfo{flex:1;}
+.winfo h4{font-size:0.9rem;font-weight:700;color:var(–ink);}
+.winfo p{font-size:0.73rem;color:var(–muted);margin-top:2px;}
+.wpill{background:var(–lime);color:var(–ink);font-size:0.65rem;font-weight:800;padding:3px 10px;border-radius:12px;}
+
+/* ─── REPORT ─── */
+.report-hero{background:linear-gradient(135deg,var(–ink) 0%,var(–ink-soft) 100%);border-radius:var(–r);padding:20px;margin-bottom:16px;}
+.report-hero h2{color:var(–card);font-size:1.1rem;font-weight:700;}
+.report-hero p{color:rgba(255,255,255,0.45);font-size:0.75rem;margin-top:3px;}
+.rstats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px;}
+.rstat{background:rgba(255,255,255,0.08);border-radius:10px;padding:10px;text-align:center;}
+.rstat .rsn{color:var(–lime);font-family:‘Fraunces’,serif;font-size:1.3rem;font-weight:600;}
+.rstat .rsl{color:rgba(255,255,255,0.4);font-size:0.6rem;margin-top:2px;}
+.period-bar{display:flex;background:var(–card);border-radius:var(–rs);padding:4px;margin-bottom:18px;box-shadow:var(–sh);}
+.pbtn{flex:1;border:none;border-radius:9px;padding:9px 4px;font-family:‘Outfit’,sans-serif;font-size:0.7rem;font-weight:700;cursor:pointer;background:none;color:var(–muted);transition:all .2s;}
+.pbtn.active{background:var(–ink);color:var(–card);}
+.jdc{background:var(–card);border-radius:var(–r);margin-bottom:12px;overflow:hidden;box-shadow:var(–sh);}
+.jdc-top{padding:14px 16px;border-bottom:1px solid var(–border);display:flex;justify-content:space-between;align-items:flex-start;}
+.jdc-top h4{font-size:0.9rem;font-weight:700;color:var(–ink);}
+.jdc-top p{font-size:0.73rem;color:var(–muted);margin-top:2px;}
+.jdc-body{padding:14px 16px;}
+.jdc-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;}
+.jtag{background:var(–paper);border-radius:6px;padding:4px 10px;font-size:0.7rem;color:var(–muted);}
+.jdc-photos{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.jdp-wrap{position:relative;border-radius:8px;overflow:hidden;}
+.jdp-wrap img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;}
+.jdp-lbl{position:absolute;bottom:0;left:0;right:0;background:rgba(13,27,42,0.75);color:var(–card);font-size:0.58rem;padding:4px 8px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;}
+.jdc-gps{font-size:0.72rem;color:var(–muted);background:var(–paper);border-radius:7px;padding:7px 10px;margin-top:8px;display:flex;align-items:center;gap:5px;}
+.jdc-notes{font-size:0.8rem;color:var(–muted);background:var(–paper);border-radius:8px;padding:9px 12px;margin-top:8px;line-height:1.5;}
+.ebar{background:var(–card);border-top:1px solid var(–border);padding:11px 16px calc(11px + env(safe-area-inset-bottom,0px));display:flex;gap:8px;position:sticky;bottom:0;}
+.ebtn{flex:1;background:var(–paper);border:1.5px solid var(–border);border-radius:50px;padding:11px;font-family:‘Outfit’,sans-serif;font-size:0.72rem;font-weight:700;color:var(–ink);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;transition:all .15s;}
+.ebtn.prime{background:var(–ink);color:var(–card);border-color:var(–ink);}
+.ebtn:active{transform:scale(0.97);}
+
+/* ─── ADMIN ─── */
+.admin-section{background:var(–card);border-radius:var(–r);padding:18px;margin-bottom:14px;box-shadow:var(–sh);}
+.admin-section h3{font-size:0.88rem;font-weight:700;color:var(–ink);margin-bottom:14px;display:flex;align-items:center;gap:6px;}
+.obra-item{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(–border);}
+.obra-item:last-child{border-bottom:none;}
+.obra-name{font-size:0.88rem;font-weight:600;}
+.del-btn{background:none;border:none;color:var(–warn);font-size:1rem;cursor:pointer;padding:4px 8px;}
+.add-row{display:flex;gap:8px;margin-top:10px;}
+.add-row input{flex:1;margin:0;}
+.add-row button{background:var(–lime);color:var(–ink);border:none;border-radius:var(–rs);padding:11px 16px;font-weight:700;cursor:pointer;font-family:‘Outfit’,sans-serif;white-space:nowrap;}
+/* worker admin row */
+.wadmin-item{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(–border);}
+.wadmin-item:last-child{border-bottom:none;}
+.wa-avatar{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(–ink),var(–ink-mid));display:flex;align-items:center;justify-content:center;color:var(–lime);font-size:0.78rem;font-weight:800;flex-shrink:0;}
+.wa-info{flex:1;}
+.wa-info .wa-name{font-size:0.88rem;font-weight:600;}
+.wa-info .wa-dob{font-size:0.72rem;color:var(–muted);margin-top:1px;}
+.wa-pin-badge{font-size:0.65rem;background:rgba(200,241,53,0.15);color:var(–lime-dim);padding:3px 9px;border-radius:10px;font-weight:700;}
+.wa-actions{display:flex;gap:6px;}
+.wa-reset-btn{background:none;border:1px solid var(–border);color:var(–muted);font-size:0.68rem;font-weight:700;padding:5px 10px;border-radius:8px;cursor:pointer;font-family:‘Outfit’,sans-serif;}
+.wa-reset-btn:active{background:var(–paper);}
+
+/* add worker form */
+.add-worker-form{background:var(–paper);border-radius:var(–rs);padding:14px;margin-top:12px;display:none;}
+.add-worker-form.open{display:block;}
+.add-worker-form .fg{margin-bottom:10px;}
+.add-worker-form .fg:last-child{margin-bottom:0;}
+
+/* ─── OVERLAY / MODAL ─── */
+.overlay{display:none;position:fixed;inset:0;background:rgba(13,27,42,0.65);z-index:500;align-items:flex-end;}
+.overlay.open{display:flex;}
+.sheet{background:var(–card);border-radius:24px 24px 0 0;padding:22px 20px 40px;width:100%;max-height:85vh;overflow-y:auto;animation:su .3s cubic-bezier(.22,.61,.36,1);}
+@keyframes su{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.sheet-handle{width:36px;height:4px;background:var(–border);border-radius:2px;margin:0 auto 20px;}
+.sheet-title{font-family:‘Fraunces’,serif;font-size:1.1rem;font-weight:600;color:var(–ink);margin-bottom:16px;}
+.divider{height:1px;background:var(–border);margin:14px 0;}
+
+/* ─── SAVING OVERLAY ─── */
+.saving-ov{display:none;position:fixed;inset:0;background:rgba(13,27,42,0.78);z-index:600;align-items:center;justify-content:center;flex-direction:column;gap:16px;}
+.saving-ov.show{display:flex;}
+.spin{width:46px;height:46px;border:3px solid rgba(200,241,53,0.25);border-top-color:var(–lime);border-radius:50%;animation:sp .8s linear infinite;}
+@keyframes sp{to{transform:rotate(360deg)}}
+.saving-msg{color:var(–card);font-size:0.88rem;font-weight:600;}
+
+/* ─── TOAST ─── */
+.toast{position:fixed;top:16px;left:50%;transform:translateX(-50%) translateY(-90px);background:var(–ink);color:var(–card);padding:11px 20px;border-radius:50px;font-size:0.82rem;font-weight:600;z-index:999;transition:transform .3s cubic-bezier(.22,.61,.36,1);white-space:nowrap;display:flex;align-items:center;gap:8px;box-shadow:var(–sh-lg);}
+.toast.show{transform:translateX(-50%) translateY(0);}
+.tdot{width:7px;height:7px;border-radius:50%;background:var(–lime);}
+
+.empty-state{text-align:center;padding:48px 24px;color:var(–muted);}
+.empty-state .es-ico{font-size:2.5rem;margin-bottom:12px;}
+.empty-state p{font-size:0.85rem;line-height:1.6;}
+@keyframes succPop{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes drawCheck{to{stroke-dashoffset:0}}
+.sel-wrap{position:relative;}
+.sel-wrap::after{content:‘▾’;position:absolute;right:13px;top:50%;transform:translateY(-50%);color:var(–muted);font-size:0.8rem;pointer-events:none;}
+input[type=file]{display:none;}
+</style>
+
+</head>
+<body>
+
+<!-- SAVING -->
+
+<div class="saving-ov" id="saving-ov"><div class="spin"></div><div class="saving-msg" id="saving-msg">Guardando...</div></div>
+<!-- TOAST -->
+<div class="toast" id="toast"><span class="tdot"></span><span id="tmsg">—</span></div>
+
+<!-- ════ SPLASH ════ -->
+
+<div class="screen active" id="s-splash">
+  <div class="sp-inner">
+    <div class="sp-mark">
+      <svg viewBox="0 0 48 48" fill="none">
+        <path d="M10 38L18 14L26 26L34 8L42 30" stroke="#0D1B2A" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="26" cy="8" r="4" fill="#0D1B2A"/>
+        <path d="M8 42L40 42" stroke="#0D1B2A" stroke-width="2.5" stroke-linecap="round" opacity="0.4"/>
+      </svg>
+    </div>
+    <div class="sp-title"><h1>Alma<em>services</em></h1><p>Control de calidad · Limpieza</p></div>
+    <button class="sp-btn" onclick="go('s-role')">Acceder →</button>
+    <span class="sp-ver">v5.0 · PIN centralizado + Drive sync</span>
+  </div>
+</div>
+
+<!-- ════ ROLE ════ -->
+
+<div class="screen" id="s-role">
+  <div style="padding:44px 22px;flex:1;display:flex;flex-direction:column;justify-content:center;gap:13px;">
+    <div class="role-hd"><h2>¿Cómo accedes?</h2><p>Selecciona tu perfil</p></div>
+    <div class="role-card" onclick="startWorkerLogin()">
+      <div class="ricon ri-op">🧹</div>
+      <div class="rtext"><h3>Operario/a</h3><p>Acceso con PIN personal</p></div>
+      <span class="rarrow">›</span>
+    </div>
+    <div class="role-card" onclick="startManagerLogin()">
+      <div class="ricon ri-mg">📊</div>
+      <div class="rtext"><h3>Responsable</h3><p>Acceso con PIN de responsable</p></div>
+      <span class="rarrow">›</span>
+    </div>
+    <div class="role-card" onclick="startAdminLogin()">
+      <div class="ricon ri-ad">⚙️</div>
+      <div class="rtext"><h3>Administrador</h3><p>Gestión total · PIN maestro</p></div>
+      <span class="rarrow">›</span>
+    </div>
+  </div>
+</div>
+
+<!-- ════ WORKER SELECT MODAL ════ -->
+
+<div class="overlay" id="ov-worker-select">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title">¿Quién eres?</div>
+    <div id="worker-select-list"></div>
+  </div>
+</div>
+
+<!-- ════ PIN SCREEN ════ -->
+
+<div class="screen" id="s-pin">
+  <div class="pin-top">
+    <div class="pin-avatar" id="pin-avatar">?</div>
+    <div class="pin-name" id="pin-name">—</div>
+    <div class="pin-subtitle" id="pin-subtitle">Introduce tu PIN de 4 dígitos</div>
+    <div class="pin-dots" id="pin-dots">
+      <div class="pin-dot" id="pd0"></div>
+      <div class="pin-dot" id="pd1"></div>
+      <div class="pin-dot" id="pd2"></div>
+      <div class="pin-dot" id="pd3"></div>
+    </div>
+    <div class="pin-error hidden" id="pin-error">PIN incorrecto. Intenta de nuevo.</div>
+  </div>
+  <div class="keypad" id="keypad">
+    <button class="key" onclick="kp(1)">1</button>
+    <button class="key" onclick="kp(2)">2</button>
+    <button class="key" onclick="kp(3)">3</button>
+    <button class="key" onclick="kp(4)">4</button>
+    <button class="key" onclick="kp(5)">5</button>
+    <button class="key" onclick="kp(6)">6</button>
+    <button class="key" onclick="kp(7)">7</button>
+    <button class="key" onclick="kp(8)">8</button>
+    <button class="key" onclick="kp(9)">9</button>
+    <button class="key action" onclick="go('s-role')">Volver</button>
+    <button class="key" onclick="kp(0)">0</button>
+    <button class="key del" onclick="kpDel()">⌫</button>
+  </div>
+  <div class="pin-links">
+    <button class="pin-link" id="pin-forgot-btn" onclick="go('s-recovery')">¿Olvidaste tu PIN?</button>
+  </div>
+</div>
+
+<!-- ════ CHANGE PIN SCREEN ════ -->
+
+<div class="screen" id="s-change-pin">
+  <div class="cp-top">
+    <div class="cp-step" id="cp-step-lbl">PASO 1 DE 2</div>
+    <div class="cp-title" id="cp-title">Introduce tu PIN actual</div>
+    <div class="cp-sub" id="cp-sub">Debes confirmar tu PIN actual antes de cambiarlo</div>
+    <div class="cp-dots">
+      <div class="pin-dot" id="cpd0"></div>
+      <div class="pin-dot" id="cpd1"></div>
+      <div class="pin-dot" id="cpd2"></div>
+      <div class="pin-dot" id="cpd3"></div>
+    </div>
+    <div class="pin-error hidden" id="cp-error">PIN incorrecto. Intenta de nuevo.</div>
+  </div>
+  <div class="keypad">
+    <button class="key" onclick="cpKp(1)">1</button>
+    <button class="key" onclick="cpKp(2)">2</button>
+    <button class="key" onclick="cpKp(3)">3</button>
+    <button class="key" onclick="cpKp(4)">4</button>
+    <button class="key" onclick="cpKp(5)">5</button>
+    <button class="key" onclick="cpKp(6)">6</button>
+    <button class="key" onclick="cpKp(7)">7</button>
+    <button class="key" onclick="cpKp(8)">8</button>
+    <button class="key" onclick="cpKp(9)">9</button>
+    <button class="key action" onclick="go('s-worker')">Cancelar</button>
+    <button class="key" onclick="cpKp(0)">0</button>
+    <button class="key del" onclick="cpDel()">⌫</button>
+  </div>
+</div>
+
+<!-- ════ RECOVERY SCREEN ════ -->
+
+<div class="screen" id="s-recovery">
+  <div class="rec-scroll">
+    <div class="rec-icon">🔑</div>
+    <div class="rec-title">Recuperar acceso</div>
+    <div class="rec-sub">Introduce tu nombre completo y DNI para restablecer tu PIN a <strong style="color:var(--lime)">1234</strong></div>
+    <div class="rec-field">
+      <label>Nombre completo</label>
+      <input type="text" id="rec-name" placeholder="Como aparece en la lista de operarios" autocomplete="off">
+    </div>
+    <div class="rec-field">
+      <label>DNI del operario</label>
+      <input type="text" id="rec-dob" placeholder="12345678A" maxlength="9" autocomplete="off" inputmode="text" style="text-transform:uppercase">
+    </div>
+    <button class="rec-btn" onclick="doRecovery()">Restablecer PIN →</button>
+    <button class="rec-back" onclick="go('s-pin')">← Volver al acceso</button>
+  </div>
+</div>
+
+<!-- ════ WORKER DASH ════ -->
+
+<div class="screen" id="s-worker">
+  <div class="topbar">
+    <span class="topbar-logo">Alma<em>services</em></span>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span class="tpill" id="w-pill">—</span>
+      <button class="tbtn" title="Cambiar PIN" onclick="goChangePin()">🔐</button>
+      <button class="tbtn" title="Salir" onclick="logout()">⇄</button>
+    </div>
+  </div>
+  <div class="scroll-body" id="wd-body"></div>
+  <div class="bnav">
+    <button class="bni active" onclick="wTab('home',this)"><span class="icon">🏠</span><span class="label">Inicio</span></button>
+    <button class="bni" onclick="wTab('hist',this)"><span class="icon">📋</span><span class="label">Historial</span></button>
+    <button class="bni" onclick="wTab('fotos',this)"><span class="icon">📸</span><span class="label">Fotos</span></button>
+  </div>
+  <button class="fab" onclick="go('s-register')">+</button>
+</div>
+
+<!-- ════ SUCCESS SCREEN ════ -->
+
+<div class="screen" id="s-success">
+  <div style="background:var(--ink);flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 32px;gap:0;position:relative;overflow:hidden;">
+    <div style="position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(200,241,53,0.10) 0%,transparent 65%);top:-100px;right:-100px;pointer-events:none;"></div>
+    <div style="position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(200,241,53,0.07) 0%,transparent 65%);bottom:-80px;left:-60px;pointer-events:none;"></div>
+    <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:28px;width:100%;">
+
+```
+  <!-- Checkmark animado -->
+  <div id="succ-circle" style="width:96px;height:96px;border-radius:50%;background:rgba(200,241,53,0.12);border:3px solid var(--lime);display:flex;align-items:center;justify-content:center;animation:succPop .5s cubic-bezier(.22,.61,.36,1.4);">
+    <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
+      <path id="succ-check" d="M8 22L18 32L36 12" stroke="#C8F135" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="40" stroke-dashoffset="40" style="animation:drawCheck .5s .3s ease forwards;"/>
+    </svg>
+  </div>
+
+  <!-- Título -->
+  <div style="text-align:center;">
+    <div style="font-family:'Fraunces',serif;font-size:1.8rem;font-weight:600;color:var(--card);line-height:1;" id="succ-title">¡Trabajo guardado!</div>
+    <div style="color:rgba(255,255,255,0.45);font-size:0.82rem;margin-top:8px;" id="succ-subtitle">El registro se ha guardado correctamente</div>
+  </div>
+
+  <!-- Resumen del trabajo -->
+  <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:20px;width:100%;display:flex;flex-direction:column;gap:12px;" id="succ-summary">
+    <!-- filled by JS -->
+  </div>
+
+  <!-- Estado de sincronización -->
+  <div id="succ-sync-box" style="background:rgba(200,241,53,0.08);border:1.5px solid rgba(200,241,53,0.25);border-radius:12px;padding:14px 18px;width:100%;display:flex;align-items:center;gap:12px;">
+    <div id="succ-sync-icon" style="font-size:1.6rem;">⏳</div>
+    <div>
+      <div id="succ-sync-title" style="font-size:0.85rem;font-weight:700;color:var(--card);">Sincronizando...</div>
+      <div id="succ-sync-sub" style="font-size:0.72rem;color:rgba(255,255,255,0.4);margin-top:2px;">Subiendo datos a Google Drive</div>
+    </div>
+  </div>
+
+  <!-- Fotos status -->
+  <div id="succ-photos-box" style="display:none;background:rgba(255,255,255,0.05);border-radius:12px;padding:12px 16px;width:100%;">
+    <div style="font-size:0.72rem;font-weight:700;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">Fotografías subidas</div>
+    <div style="display:flex;gap:10px;" id="succ-photos-row"></div>
+  </div>
+
+  <!-- Botón volver -->
+  <button onclick="go('s-worker')" style="background:var(--lime);color:var(--ink);border:none;border-radius:50px;padding:15px;font-family:'Outfit',sans-serif;font-weight:700;font-size:0.95rem;width:100%;cursor:pointer;transition:transform .15s;margin-top:8px;" onactive="this.style.transform='scale(0.97)'">
+    Volver al inicio →
+  </button>
+</div>
+```
+
+  </div>
+</div>
+
+<!-- ════ REGISTER ════ -->
+
+<div class="screen" id="s-register">
+  <div class="topbar">
+    <button class="tbtn" onclick="go('s-worker')">‹</button>
+    <span class="topbar-logo">Nuevo <em>trabajo</em></span>
+    <div style="width:36px"></div>
+  </div>
+  <div class="scroll-body">
+    <div class="form-card">
+      <div class="form-card-title">🤖 Campos automáticos</div>
+      <div class="fg"><label class="fl">Fecha y hora</label><div class="auto-field"><span class="afl" id="auto-dt">—</span><span class="afb">AUTO</span></div></div>
+      <div class="fg">
+        <label class="fl">Ubicación GPS</label>
+        <div class="auto-field">
+          <div style="flex:1"><div class="gps-row"><div class="gps-dot acquiring" id="gps-dot"></div><span id="gps-txt" style="font-size:0.78rem">Obteniendo...</span></div><div id="gps-coords" style="font-size:0.68rem;color:var(--muted);margin-top:3px;display:none;"></div></div>
+          <span class="afb">AUTO</span>
+        </div>
+      </div>
+    </div>
+    <div class="form-card">
+      <div class="form-card-title">📍 Obra y servicio</div>
+      <div class="fg"><label class="fl">Obra / Proyecto</label><div class="sel-wrap"><select id="f-obra"><option value="">Seleccionar obra...</option></select></div></div>
+      <div class="fg"><label class="fl">Tipo de trabajo</label><div class="sel-wrap"><select id="f-tipo"><option value="">Seleccionar tipo...</option><option>Limpieza general</option><option>Limpieza profunda</option><option>Cristales y superficies</option><option>Zonas comunes</option><option>Sanitarios</option><option>Post-obra</option><option>Desinfección</option><option>Pavimentos</option><option>Exteriores</option><option>Otro</option></select></div></div>
+    </div>
+    <div class="form-card">
+      <div class="form-card-title">📷 Fotos — ANTES</div>
+      <div class="pzone" onclick="triggerPhoto('before')"><div class="pz-ico">🏚️</div><p>Estado inicial antes de limpiar</p></div>
+      <input type="file" id="pi-before" accept="image/*" multiple onchange="handlePhotos(event,'before')">
+      <div class="pgrid" id="pg-before"></div>
+    </div>
+    <div class="form-card">
+      <div class="form-card-title">✅ Fotos — DESPUÉS</div>
+      <div class="pzone" onclick="triggerPhoto('after')"><div class="pz-ico">✨</div><p>Resultado final del trabajo</p></div>
+      <input type="file" id="pi-after" accept="image/*" multiple onchange="handlePhotos(event,'after')">
+      <div class="pgrid" id="pg-after"></div>
+    </div>
+    <div class="form-card">
+      <div class="form-card-title">📝 Observaciones</div>
+      <textarea id="f-notes" placeholder="Incidencias, materiales, estado especial..."></textarea>
+    </div>
+  </div>
+  <div class="abar">
+    <button class="btn btn-ghost" onclick="go('s-worker')">Cancelar</button>
+    <button class="btn btn-primary" onclick="this.disabled=true;this.textContent='Guardando...';saveJob().finally(()=>{this.disabled=false;this.textContent='Guardar trabajo ✓';})">Guardar trabajo ✓</button>
+  </div>
+</div>
+
+<!-- ════ MANAGER ════ -->
+
+<div class="screen" id="s-manager">
+  <div class="topbar">
+    <button class="tbtn" onclick="logout()">‹</button>
+    <span class="topbar-logo">Panel <em>manager</em></span>
+    <div style="width:36px"></div>
+  </div>
+  <div class="scroll-body">
+    <div class="kpi3" id="mgr-kpis"></div>
+    <div class="chips" id="mgr-chips">
+      <div class="chip active" onclick="mgrFilter('all',this)">Todos</div>
+      <div class="chip" onclick="mgrFilter('today',this)">Hoy</div>
+      <div class="chip" onclick="mgrFilter('week',this)">Semana</div>
+      <div class="chip" onclick="mgrFilter('month',this)">Mes</div>
+    </div>
+    <div class="slabel">EQUIPO</div>
+    <div id="mgr-workers"></div>
+  </div>
+</div>
+
+<!-- ════ REPORT ════ -->
+
+<div class="screen" id="s-report">
+  <div class="topbar">
+    <button class="tbtn" onclick="go('s-manager')">‹</button>
+    <span class="topbar-logo">Reporte <em>operario</em></span>
+    <div style="width:36px"></div>
+  </div>
+  <div class="scroll-body" style="padding-bottom:80px;">
+    <div class="report-hero"><h2 id="rpt-name">—</h2><p id="rpt-sub">—</p>
+      <div class="rstats">
+        <div class="rstat"><div class="rsn" id="rs-jobs">0</div><div class="rsl">Trabajos</div></div>
+        <div class="rstat"><div class="rsn" id="rs-hours">0h</div><div class="rsl">Horas</div></div>
+        <div class="rstat"><div class="rsn" id="rs-photos">0</div><div class="rsl">Fotos</div></div>
+      </div>
+    </div>
+    <div class="period-bar">
+      <button class="pbtn active" onclick="setPeriod('day',this)">Hoy</button>
+      <button class="pbtn" onclick="setPeriod('week',this)">Semana</button>
+      <button class="pbtn" onclick="setPeriod('month',this)">Mes</button>
+      <button class="pbtn" onclick="setPeriod('year',this)">Año</button>
+    </div>
+    <div id="rpt-list"></div>
+  </div>
+  <div class="ebar">
+    <button class="ebtn" onclick="expCSV()">📄 CSV</button>
+    <button class="ebtn prime" onclick="expHTML()">☁️ Informe Drive</button>
+  </div>
+</div>
+
+<!-- ════ ADMIN ════ -->
+
+<div class="screen" id="s-admin">
+  <div class="topbar">
+    <button class="tbtn" onclick="logout()">‹</button>
+    <span class="topbar-logo">Panel <em>admin</em></span>
+    <div style="width:36px"></div>
+  </div>
+  <div class="scroll-body">
+
+```
+<!-- Drive config -->
+<div class="admin-section">
+  <h3>🔗 Google Drive</h3>
+  <div style="font-size:0.82rem;color:var(--muted);margin-bottom:10px;" id="admin-conn-status">—</div>
+  <div class="fg"><label class="fl">URL del script</label><input type="text" id="admin-script-url" placeholder="https://script.google.com/macros/s/.../exec"></div>
+  <button class="btn btn-primary" style="width:100%;margin-top:4px;" onclick="saveScriptUrl()">Guardar URL</button>
+</div>
+
+<!-- Operarios -->
+<div class="admin-section">
+  <h3>👷 Operarios y PINs</h3>
+  <div id="admin-workers-list"></div>
+  <button class="btn btn-ghost" style="width:100%;margin-top:12px;" onclick="toggleAddWorkerForm()">+ Añadir operario</button>
+  <div class="add-worker-form" id="add-worker-form">
+    <div class="fg"><label class="fl">Nombre completo</label><input type="text" id="aw-name" placeholder="Nombre completo"></div>
+    <div class="fg"><label class="fl">DNI del operario</label><input type="text" id="aw-dob" placeholder="12345678A" maxlength="9" inputmode="text" style="text-transform:uppercase"></div>
+    <div class="fg"><label class="fl">PIN inicial</label><input type="text" id="aw-pin" placeholder="1234" maxlength="4" inputmode="numeric"></div>
+    <button class="btn btn-primary" style="width:100%;" onclick="addWorkerAdmin()">Crear operario</button>
+  </div>
+</div>
+
+<!-- Obras -->
+<div class="admin-section">
+  <h3>🏗️ Obras y proyectos</h3>
+  <div id="obras-list"></div>
+  <div class="add-row"><input type="text" id="no-name" placeholder="Nombre de la obra"><button onclick="addObra()">+ Añadir</button></div>
+</div>
+
+<!-- Admin PIN -->
+<div class="admin-section">
+  <h3>🔐 PIN maestro</h3>
+  <div style="font-size:0.82rem;color:var(--muted);margin-bottom:12px;">PIN actual del administrador. Cámbialo regularmente.</div>
+  <button class="btn btn-ghost" style="width:100%;" onclick="goChangePinAdmin()">Cambiar PIN de administrador</button>
+</div>
+
+<div class="admin-section">
+  <h3>🗄️ Datos</h3>
+  <button class="btn btn-ghost" style="width:100%;" onclick="clearAllData()">⚠️ Borrar todos los datos locales</button>
+</div>
+```
+
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════
+//  STATE & PERSISTENCE
+// ══════════════════════════════════════════════
+const DEFAULT_PIN = '1234';
+
+// Workers stored as: { name, dob, pin, role:'worker' }
+// Special accounts stored separately
+const S = {
+  scriptUrl: localStorage.getItem('as_script_url') || '',
+  workers:   JSON.parse(localStorage.getItem('as_workers4') || 'null') || [
+    { name:'María García',  dob:'12345678A', pin: DEFAULT_PIN },
+    { name:'Carlos Ruiz',   dob:'87654321B', pin: DEFAULT_PIN },
+    { name:'Ana López',     dob:'11223344C', pin: DEFAULT_PIN }
+  ],
+  // Manager and Admin are special fixed accounts
+  managerPin: localStorage.getItem('as_mgr_pin') || '3112',
+  adminPin:   localStorage.getItem('as_adm_pin') || '3112',
+  obras:      JSON.parse(localStorage.getItem('as_obras') || '["Edificio Nervión","Hotel Bécquer","Residencial Triana","Oficinas Cartuja"]'),
+  jobs:       JSON.parse(localStorage.getItem('as_jobs')  || '[]'),
+
+  // Session (not persisted)
+  me: null,          // { name, role }
+  pinBuffer: '',
+  pinContext: null,  // 'worker-login' | 'manager-login' | 'admin-login' | 'change-verify' | 'change-new' | 'change-confirm'
+  pinNewBuffer: '',
+  rptWorker: null,
+  rptPeriod: 'day',
+  gps: null,
+  photos: { before: [], after: [] }
+};
+
+if (S.jobs.length === 0) seedDemo();
+persist();
+// Sincronizar PINs con Drive al arrancar (en background, no bloquea UI)
+syncPinsFromServer();
+// Procesar cola de trabajos pendientes al arrancar
+setTimeout(processSyncQueue, 3000);
+
+function persist() {
+  localStorage.setItem('as_script_url', S.scriptUrl);
+  localStorage.setItem('as_workers4',   JSON.stringify(S.workers));
+  localStorage.setItem('as_mgr_pin',    S.managerPin);
+  localStorage.setItem('as_adm_pin',    S.adminPin);
+  localStorage.setItem('as_obras',      JSON.stringify(S.obras));
+  localStorage.setItem('as_jobs',       JSON.stringify(S.jobs));
+}
+
+// ══════════════════════════════════════════════
+//  COLA DE SINCRONIZACIÓN
+//  Cada trabajo pendiente se reintenta automáticamente:
+//  · Al arrancar la app
+//  · Al recuperar conexión (online event)
+//  · Al configurar la URL del script
+//  · Cada 2 minutos en background
+//  Los trabajos sin Drive se quedan en cola hasta
+//  que haya conexión disponible. Nunca se pierden.
+// ══════════════════════════════════════════════
+let syncInProgress = false;
+
+async function processSyncQueue() {
+  if (syncInProgress || !S.scriptUrl) return;
+  const pending = S.jobs.filter(j => !j.synced);
+  if (!pending.length) return;
+
+  syncInProgress = true;
+  updateSyncBadge(pending.length);
+
+  for (const job of pending) {
+    try {
+      // 1. Subir el registro a Sheets
+      await callScript({
+        action: 'saveJob',
+        id: String(job.id),
+        date: job.date,
+        start: job.start,
+        worker: job.worker,
+        obra: job.obra,
+        tipo: job.tipo,
+        gps: job.gps,
+        photosBefore: job.photosBefore.length,
+        photosAfter:  job.photosAfter.length,
+        notes: job.notes || ''
+      });
+
+      // 2. Subir fotos antes
+      for (let i = 0; i < job.photosBefore.length; i++) {
+        const data = job.photosBefore[i];
+        // Las fotos se guardan como base64 string directamente
+        await callScript({
+          action: 'uploadPhoto',
+          base64: data,
+          mimeType: 'image/jpeg',
+          filename: `antes_${i+1}.jpg`,
+          worker: job.worker,
+          date: job.date,
+          jobId: String(job.id),
+          type: 'before'
+        });
+      }
+
+      // 3. Subir fotos después
+      for (let i = 0; i < job.photosAfter.length; i++) {
+        const data = job.photosAfter[i];
+        await callScript({
+          action: 'uploadPhoto',
+          base64: data,
+          mimeType: 'image/jpeg',
+          filename: `despues_${i+1}.jpg`,
+          worker: job.worker,
+          date: job.date,
+          jobId: String(job.id),
+          type: 'after'
+        });
+      }
+
+      // 4. Marcar como sincronizado
+      job.synced = true;
+      persist();
+      updateSyncBadge(S.jobs.filter(j => !j.synced).length);
+
+    } catch(e) {
+      // Si falla, dejarlo en cola para el próximo intento
+      break;
+    }
+  }
+
+  syncInProgress = false;
+  updateSyncBadge(S.jobs.filter(j => !j.synced).length);
+}
+
+function updateSyncBadge(pendingCount) {
+  // Actualizar indicador en el dashboard del operario si está visible
+  const syncTxt = document.querySelector('.stxt');
+  if (syncTxt) {
+    if (pendingCount > 0) {
+      syncTxt.textContent = `${pendingCount} trabajo${pendingCount>1?'s':''} pendiente${pendingCount>1?'s':''} de subir`;
+      syncTxt.style.color = '#F0A500';
+    } else if (S.scriptUrl) {
+      syncTxt.textContent = 'Drive conectado · Todo sincronizado ✓';
+      syncTxt.style.color = 'rgba(255,255,255,0.45)';
+    }
+  }
+  // Actualizar pantalla de éxito si está visible
+  const pending = S.jobs.filter(j => !j.synced).length;
+  const succSub = document.getElementById('succ-sync-sub');
+  if (succSub && pending === 0 && S.scriptUrl) {
+    setSyncStatus('ok', '¡Todo guardado en Google Drive!', 'Registro y fotos subidos correctamente');
+  }
+}
+
+// Arrancar cola automáticamente
+window.addEventListener('online', () => {
+  toast('📶 Conexión recuperada — sincronizando...');
+  setTimeout(processSyncQueue, 1500);
+});
+
+// Reintentar cada 2 minutos en background
+setInterval(processSyncQueue, 120000);
+
+
+//  Al arrancar: descarga PINs centrales y los
+//  aplica localmente. Al cambiar PIN: sube al
+//  script para que todos los dispositivos se
+//  actualicen en su próxima sincronización.
+// ══════════════════════════════════════════════
+async function syncPinsFromServer() {
+  if (!S.scriptUrl) return; // Sin Drive configurado, modo local
+  try {
+    const res = await fetch(S.scriptUrl, {
+      method: 'POST',
+      body: JSON.stringify({
+        action: 'syncPins',
+        managerPin: S.managerPin,
+        adminPin:   S.adminPin,
+        workers:    S.workers.map(w => ({ name: w.name, dob: w.dob, pin: w.pin }))
+      })
+    });
+    const data = await res.json();
+    if (data.status !== 'ok') return;
+
+    // Aplicar PINs centrales (el servidor manda)
+    let changed = false;
+    if (data.managerPin && data.managerPin !== S.managerPin) { S.managerPin = data.managerPin; changed = true; }
+    if (data.adminPin   && data.adminPin   !== S.adminPin)   { S.adminPin   = data.adminPin;   changed = true; }
+    if (data.workerPins) {
+      S.workers.forEach(w => {
+        const serverPin = data.workerPins[w.name];
+        if (serverPin && serverPin !== w.pin) { w.pin = serverPin; changed = true; }
+      });
+    }
+    if (changed) { persist(); }
+  } catch(e) {
+    // Silencioso — funciona en modo local si Drive no disponible
+  }
+}
+
+async function pushPinToServer(role, newPin, workerName, dob) {
+  if (!S.scriptUrl) return;
+  try {
+    await fetch(S.scriptUrl, {
+      method: 'POST',
+      body: JSON.stringify({ action: 'updatePin', role, newPin, workerName: workerName||'', dob: dob||'' })
+    });
+  } catch(e) { /* silencioso */ }
+}
+
+async function pushNewWorkerToServer(worker) {
+  if (!S.scriptUrl) return;
+  try {
+    await fetch(S.scriptUrl, {
+      method: 'POST',
+      body: JSON.stringify({ action: 'addWorker', name: worker.name, dob: worker.dob, pin: worker.pin })
+    });
+  } catch(e) { /* silencioso */ }
+}
+
+function seedDemo() {
+  const now = new Date();
+  const tipos = ['Limpieza general','Cristales','Zonas comunes','Sanitarios','Limpieza profunda'];
+  let id = 1;
+  S.workers.forEach(w => {
+    for (let d = 0; d < 7; d++) {
+      const dt = new Date(now); dt.setDate(dt.getDate() - d);
+      const ds = dt.toISOString().split('T')[0];
+      const cnt = d === 0 ? 2 : 1;
+      for (let c = 0; c < cnt; c++) {
+        const sh = 7 + Math.floor(Math.random() * 3);
+        const eh = sh + 2 + Math.floor(Math.random() * 4);
+        S.jobs.push({
+          id: id++, worker: w.name, date: ds,
+          datetime: ds + 'T' + String(sh).padStart(2,'0') + ':00:00',
+          obra: S.obras[Math.floor(Math.random() * S.obras.length)],
+          tipo: tipos[Math.floor(Math.random() * tipos.length)],
+          start: String(sh).padStart(2,'0') + ':00',
+          end:   String(eh).padStart(2,'0') + ':00',
+          notes: ['Sin incidencias.','Manchas resistentes eliminadas.','Cliente satisfecho.','Revisión doble.'][Math.floor(Math.random() * 4)],
+          gps: { lat: 37.38 + (Math.random() - .5) * .05, lng: -5.99 + (Math.random() - .5) * .05 },
+          photosBefore: [], photosAfter: [], synced: false
+        });
+      }
+    }
+  });
+  persist();
+}
+
+// ══════════════════════════════════════════════
+//  NAVIGATION
+// ══════════════════════════════════════════════
+function go(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  // Sincronizar PINs con servidor cada vez que se vuelve a la pantalla de roles
+  if (id === 's-role')     syncPinsFromServer();
+  if (id === 's-worker')   refreshWD();
+  if (id === 's-manager')  refreshMgr();
+  if (id === 's-register') initRegister();
+  if (id === 's-admin')    refreshAdmin();
+  // s-success no necesita refresh — se rellena antes de llamar go()
+}
+
+function logout() {
+  S.me = null;
+  go('s-role');
+}
+
+// ══════════════════════════════════════════════
+//  PIN SYSTEM — LOGIN FLOWS
+// ══════════════════════════════════════════════
+
+// 1. Worker: first pick name, then enter PIN
+function startWorkerLogin() {
+  const list = document.getElementById('worker-select-list');
+  list.innerHTML = S.workers.map(w =>
+    `<div class="wrow" onclick="selectWorkerForLogin('${w.name}')">
+      <div class="wavatar">${ini(w.name)}</div>
+      <div class="winfo"><h4>${w.name}</h4><p>${w.pin === DEFAULT_PIN ? '⚠️ PIN por defecto — cámbialo' : '🔒 PIN personalizado'}</p></div>
+      <span style="color:var(--muted)">›</span>
+    </div>`).join('');
+  document.getElementById('ov-worker-select').classList.add('open');
+}
+
+function selectWorkerForLogin(name) {
+  document.getElementById('ov-worker-select').classList.remove('open');
+  const w = S.workers.find(x => x.name === name);
+  openPinScreen({
+    avatar: ini(name),
+    name,
+    subtitle: w.pin === DEFAULT_PIN ? 'PIN por defecto: 1234 — ¡cámbialo!' : 'Introduce tu PIN',
+    context: 'worker-login',
+    workerName: name
+  });
+}
+
+// 2. Manager login
+function startManagerLogin() {
+  openPinScreen({ avatar: '📊', name: 'Responsable', subtitle: 'Introduce el PIN de responsable', context: 'manager-login' });
+}
+
+// 3. Admin login
+function startAdminLogin() {
+  openPinScreen({ avatar: '⚙️', name: 'Administrador', subtitle: 'Introduce el PIN maestro', context: 'admin-login' });
+}
+
+function openPinScreen(opts) {
+  S.pinBuffer  = '';
+  S.pinContext = opts;
+  document.getElementById('pin-avatar').textContent = opts.avatar;
+  document.getElementById('pin-name').textContent   = opts.name;
+  document.getElementById('pin-subtitle').textContent = opts.subtitle;
+  clearPinDots('pd');
+  hidePinError('pin-error');
+  // Show forgot only for workers
+  document.getElementById('pin-forgot-btn').style.display = opts.context === 'worker-login' ? 'block' : 'none';
+  go('s-pin');
+}
+
+// ── Keypad handler ──
+function kp(digit) {
+  if (S.pinBuffer.length >= 4) return;
+  S.pinBuffer += digit;
+  fillDots('pd', S.pinBuffer.length);
+  if (S.pinBuffer.length === 4) setTimeout(() => validatePin(), 150);
+}
+function kpDel() {
+  if (!S.pinBuffer.length) return;
+  S.pinBuffer = S.pinBuffer.slice(0, -1);
+  fillDots('pd', S.pinBuffer.length);
+}
+
+function validatePin() {
+  const ctx = S.pinContext;
+  const entered = S.pinBuffer;
+
+  if (ctx.context === 'worker-login') {
+    const w = S.workers.find(x => x.name === ctx.workerName);
+    if (w && entered === w.pin) {
+      S.me = { name: w.name, role: 'worker' };
+      document.getElementById('w-pill').textContent = w.name.split(' ')[0];
+      // Show warning if still default PIN
+      if (w.pin === DEFAULT_PIN) {
+        toast('⚠️ Tu PIN es el de defecto. ¡Cámbialo pronto!');
+      }
+      go('s-worker');
+      return;
+    }
+  }
+  if (ctx.context === 'manager-login') {
+    if (entered === S.managerPin) { S.me = { name: 'Responsable', role: 'manager' }; go('s-manager'); return; }
+  }
+  if (ctx.context === 'admin-login') {
+    if (entered === S.adminPin) { S.me = { name: 'Admin', role: 'admin' }; go('s-admin'); return; }
+  }
+
+  // Wrong PIN
+  pinError();
+}
+
+function pinError() {
+  document.querySelectorAll('#pin-dots .pin-dot').forEach(d => { d.classList.remove('filled'); d.classList.add('error'); });
+  document.getElementById('pin-error').classList.remove('hidden');
+  setTimeout(() => {
+    document.querySelectorAll('#pin-dots .pin-dot').forEach(d => d.classList.remove('error'));
+    document.getElementById('pin-error').classList.add('hidden');
+    S.pinBuffer = '';
+    fillDots('pd', 0);
+  }, 900);
+}
+
+// ══════════════════════════════════════════════
+//  CHANGE PIN FLOW  (3 steps)
+//  step 1: verify current
+//  step 2: enter new
+//  step 3: confirm new
+// ══════════════════════════════════════════════
+let cpStep = 1;
+let cpBuf  = '';
+let cpNew  = '';
+
+function goChangePin() {
+  cpStep = 1; cpBuf = ''; cpNew = '';
+  setCpStep(1);
+  clearPinDots('cpd');
+  hidePinError('cp-error');
+  go('s-change-pin');
+}
+function goChangePinAdmin() {
+  cpStep = 1; cpBuf = ''; cpNew = '';
+  S.pinContext = { context: 'change-admin' };
+  setCpStep(1, true);
+  clearPinDots('cpd');
+  hidePinError('cp-error');
+  go('s-change-pin');
+}
+function setCpStep(n, isAdmin) {
+  const titles = ['Introduce tu PIN actual', 'Introduce el nuevo PIN', 'Confirma el nuevo PIN'];
+  const subs   = ['Debes verificar tu PIN antes de cambiarlo', 'El nuevo PIN debe tener 4 dígitos', 'Repite el nuevo PIN para confirmar'];
+  document.getElementById('cp-step-lbl').textContent = `PASO ${n} DE 3`;
+  document.getElementById('cp-title').textContent    = titles[n-1];
+  document.getElementById('cp-sub').textContent      = subs[n-1];
+}
+
+function cpKp(digit) {
+  if (cpBuf.length >= 4) return;
+  cpBuf += digit;
+  fillDots('cpd', cpBuf.length);
+  if (cpBuf.length === 4) setTimeout(() => processCpStep(), 150);
+}
+function cpDel() { if (!cpBuf.length) return; cpBuf = cpBuf.slice(0,-1); fillDots('cpd', cpBuf.length); }
+
+function processCpStep() {
+  if (cpStep === 1) {
+    // Verify current
+    const isAdmin = S.pinContext?.context === 'change-admin';
+    const currentPin = isAdmin ? S.adminPin : S.workers.find(x => x.name === S.me?.name)?.pin || S.managerPin;
+    if (cpBuf !== currentPin) { cpError(); return; }
+    cpStep = 2; cpBuf = ''; setCpStep(2); clearPinDots('cpd');
+    return;
+  }
+  if (cpStep === 2) {
+    cpNew = cpBuf; cpBuf = ''; cpStep = 3; setCpStep(3); clearPinDots('cpd'); return;
+  }
+  if (cpStep === 3) {
+    if (cpBuf !== cpNew) { cpError('Los PINs no coinciden'); return; }
+    // Save locally
+    const isAdmin = S.pinContext?.context === 'change-admin';
+    if (isAdmin) {
+      S.adminPin = cpNew;
+      pushPinToServer('admin', cpNew);
+    } else if (S.me?.role === 'manager') {
+      S.managerPin = cpNew;
+      pushPinToServer('manager', cpNew);
+    } else {
+      const w = S.workers.find(x => x.name === S.me?.name);
+      if (w) { w.pin = cpNew; pushPinToServer('worker', cpNew, w.name, w.dob); }
+    }
+    persist();
+    toast('✓ PIN cambiado · sincronizando con Drive...');
+    const dest = isAdmin ? 's-admin' : S.me?.role === 'manager' ? 's-manager' : 's-worker';
+    go(dest);
+  }
+}
+
+function cpError(msg) {
+  document.querySelectorAll('#s-change-pin .pin-dot').forEach(d => { d.classList.remove('filled'); d.classList.add('error'); });
+  const el = document.getElementById('cp-error');
+  el.textContent = msg || 'PIN incorrecto. Intenta de nuevo.';
+  el.classList.remove('hidden');
+  setTimeout(() => {
+    document.querySelectorAll('#s-change-pin .pin-dot').forEach(d => d.classList.remove('error'));
+    el.classList.add('hidden');
+    cpBuf = '';
+    if (cpStep === 1) { fillDots('cpd', 0); }
+    else { cpStep = 2; cpBuf = ''; setCpStep(2); clearPinDots('cpd'); }
+  }, 900);
+}
+
+// ══════════════════════════════════════════════
+//  RECOVERY
+// ══════════════════════════════════════════════
+function doRecovery() {
+  const name = document.getElementById('rec-name').value.trim();
+  const dob  = document.getElementById('rec-dob').value;
+  if (!name || !dob) { toast('⚠️ Completa nombre y DNI'); return; }
+  const w = S.workers.find(x => x.name.toLowerCase() === name.toLowerCase() && x.dob.toUpperCase() === dob.toUpperCase());
+  if (!w) { toast('✗ Datos no coinciden. Contacta con el administrador.'); return; }
+  w.pin = DEFAULT_PIN;
+  persist();
+  toast('✓ PIN restablecido a 1234 — cámbialo al entrar');
+  document.getElementById('rec-name').value = '';
+  document.getElementById('rec-dob').value  = '';
+  selectWorkerForLogin(w.name);
+}
+
+// ══════════════════════════════════════════════
+//  PIN DOT HELPERS
+// ══════════════════════════════════════════════
+function fillDots(prefix, n) {
+  for (let i = 0; i < 4; i++) {
+    const d = document.getElementById(prefix + i);
+    if (d) { d.classList.toggle('filled', i < n); d.classList.remove('error'); }
+  }
+}
+function clearPinDots(prefix) { fillDots(prefix, 0); }
+function hidePinError(id) { document.getElementById(id)?.classList.add('hidden'); }
+
+// ══════════════════════════════════════════════
+//  WORKER DASHBOARD
+// ══════════════════════════════════════════════
+function refreshWD() {
+  const today = nowDate();
+  const wk    = daysAgo(7);
+  const mine  = S.jobs.filter(j => j.worker === S.me?.name);
+  const tJobs = mine.filter(j => j.date === today);
+  const wJobs = mine.filter(j => j.date >= wk);
+  const w = S.workers.find(x => x.name === S.me?.name);
+  const pinWarning = w && w.pin === DEFAULT_PIN;
+  const pending = mine.filter(j => !j.synced).length;
+  document.getElementById('wd-body').innerHTML = `
+    ${pinWarning ? `<div style="background:#FFF3EE;border-radius:12px;padding:13px 16px;margin-bottom:16px;display:flex;align-items:center;gap:10px;">
+      <span style="font-size:1.3rem">⚠️</span>
+      <div style="flex:1"><div style="font-size:0.85rem;font-weight:700;color:#cc4a1a">PIN por defecto activo</div><div style="font-size:0.75rem;color:#E07050;margin-top:2px">Toca 🔐 arriba para cambiarlo ahora</div></div>
+    </div>` : ''}
+    <div class="hero-card">
+      <h2>Hola, ${S.me?.name.split(' ')[0]} 👋</h2>
+      <p>Registra tus trabajos del día</p>
+      <div class="hero-date">📅 ${fmtDate(today)}</div>
+      <div class="sync-row">
+        <div class="sdot ${S.scriptUrl ? (pending>0?'':'ok') : 'off'}" style="${pending>0?'background:#F0A500':''}"></div>
+        <span class="stxt">${S.scriptUrl ? (pending>0 ? `${pending} trabajo${pending>1?'s':''} pendiente${pending>1?'s':''} de subir` : 'Drive conectado · Todo sincronizado ✓') : 'Sin Drive — solo local'}</span>
+        ${pending>0&&S.scriptUrl ? `<button onclick="processSyncQueue();toast('🔄 Sincronizando...')" style="background:rgba(200,241,53,0.15);border:none;border-radius:10px;color:var(--lime);font-size:0.65rem;font-weight:700;padding:3px 8px;cursor:pointer;margin-left:4px;">Subir ahora</button>` : ''}
+      </div>
+    </div>
+    <div class="stat-grid">
+      <div class="stat-box"><div class="sn lime">${tJobs.length}</div><div class="sl">Hoy</div></div>
+      <div class="stat-box"><div class="sn">${wJobs.length}</div><div class="sl">Esta semana</div></div>
+    </div>
+    <div class="slabel">HOY</div>
+    ${tJobs.length === 0
+      ? `<div class="empty-state"><div class="es-ico">🧹</div><p>Pulsa <strong>+</strong> para registrar tu primer trabajo</p></div>`
+      : tJobs.map(j => `
+        <div class="job-card done">
+          <span style="font-size:1.3rem">🏗️</span>
+          <div class="jc-info"><h4>${j.obra}</h4><p>${j.tipo} · ${j.start}</p></div>
+          <span class="badge ${j.synced?'badge-sync':'badge-local'}">${j.synced?'☁':'📱'}</span>
+        </div>`).join('')}`;
+}
+
+function wTab(tab, el) {
+  document.querySelectorAll('#s-worker .bni').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  const mine = S.jobs.filter(j => j.worker === S.me?.name).sort((a,b) => b.date.localeCompare(a.date));
+  const body = document.getElementById('wd-body');
+  if (tab === 'home') { refreshWD(); return; }
+  if (tab === 'hist') {
+    body.innerHTML = `<div class="slabel">MI HISTORIAL</div>` +
+      (mine.length === 0 ? `<div class="empty-state"><div class="es-ico">📋</div><p>Sin trabajos aún</p></div>` :
+        mine.map(j => `<div class="job-card done"><span style="font-size:1.3rem">🏗️</span><div class="jc-info"><h4>${j.obra}</h4><p>${j.date} · ${j.tipo}</p></div><span class="badge ${j.synced?'badge-sync':'badge-local'}">${j.synced?'☁':'📱'}</span></div>`).join(''));
+  }
+  if (tab === 'fotos') {
+    const all = mine.flatMap(j => [...j.photosBefore, ...j.photosAfter]);
+    body.innerHTML = `<div class="slabel">MIS FOTOGRAFÍAS (${all.length})</div>` +
+      (all.length === 0 ? `<div class="empty-state"><div class="es-ico">📸</div><p>Sin fotos aún</p></div>` :
+        `<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;">${all.map(p => `<img src="${p}" style="width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;">`).join('')}</div>`);
+  }
+}
+
+// ══════════════════════════════════════════════
+//  REGISTER JOB
+// ══════════════════════════════════════════════
+function initRegister() {
+  S.photos = { before: [], after: [] };
+  ['pg-before','pg-after'].forEach(id => document.getElementById(id).innerHTML = '');
+  ['f-obra','f-tipo','f-notes'].forEach(id => { const e = document.getElementById(id); if(e) e.value = ''; });
+  const d = new Date();
+  document.getElementById('auto-dt').textContent = d.toLocaleString('es-ES',{weekday:'short',day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
+  document.getElementById('f-obra').innerHTML = '<option value="">Seleccionar obra...</option>' +
+    S.obras.map(o => `<option value="${o}">${o}</option>`).join('');
+  acquireGPS();
+}
+function acquireGPS() {
+  const dot = document.getElementById('gps-dot'), txt = document.getElementById('gps-txt'), coords = document.getElementById('gps-coords');
+  S.gps = null; dot.className = 'gps-dot acquiring'; txt.textContent = 'Obteniendo ubicación...';
+  if (!navigator.geolocation) { dot.className='gps-dot'; txt.textContent='GPS no disponible'; return; }
+  navigator.geolocation.getCurrentPosition(
+    pos => { S.gps={lat:pos.coords.latitude,lng:pos.coords.longitude}; dot.className='gps-dot ok'; txt.textContent='Ubicación obtenida ✓'; coords.style.display='block'; coords.textContent=`${S.gps.lat.toFixed(5)}, ${S.gps.lng.toFixed(5)}`; },
+    ()  => { S.gps={lat:37.3861+(Math.random()-.5)*.01,lng:-5.9925+(Math.random()-.5)*.01}; dot.className='gps-dot ok'; txt.textContent='Ubicación simulada (demo)'; coords.style.display='block'; coords.textContent=`${S.gps.lat.toFixed(5)}, ${S.gps.lng.toFixed(5)}`; },
+    {timeout:10000}
+  );
+}
+function triggerPhoto(t) { document.getElementById(`pi-${t}`).click(); }
+function handlePhotos(evt, type) {
+  Array.from(evt.target.files).forEach(f => {
+    const r = new FileReader();
+    r.onload = e => { S.photos[type].push({data:e.target.result,mime:f.type,name:f.name}); renderGrid(type); };
+    r.readAsDataURL(f);
+  });
+}
+function renderGrid(type) {
+  document.getElementById(`pg-${type}`).innerHTML = S.photos[type].map((p,i) =>
+    `<div class="pthumb-wrap"><img src="${p.data}"><button class="pdel" onclick="delPhoto('${type}',${i})">×</button></div>`).join('');
+}
+function delPhoto(type,i) { S.photos[type].splice(i,1); renderGrid(type); }
+
+async function saveJob() {
+  const obra = document.getElementById('f-obra').value;
+  const tipo = document.getElementById('f-tipo').value;
+  if (!obra||!tipo) { toast('⚠️ Selecciona obra y tipo'); return; }
+  const d = new Date(), ds = d.toISOString().split('T')[0], jobId = Date.now();
+  const job = {
+    id:jobId, worker:S.me.name, date:ds, datetime:d.toISOString(),
+    obra, tipo, start:d.toTimeString().slice(0,5), end:'--:--',
+    notes:document.getElementById('f-notes').value.trim(),
+    gps:S.gps, photosBefore:S.photos.before.map(p=>p.data), photosAfter:S.photos.after.map(p=>p.data), synced:false
+  };
+  S.jobs.push(job); persist();
+
+  // ── Mostrar pantalla de éxito inmediatamente ──
+  showSuccessScreen(job);
+
+  // ── Sincronizar con Drive en background ──
+  if (S.scriptUrl) {
+    try {
+      setSyncStatus('uploading', 'Subiendo registro...', 'Conectando con Google Drive');
+      await callScript({action:'saveJob',id:String(jobId),date:ds,start:job.start,worker:S.me.name,obra,tipo,gps:S.gps,photosBefore:S.photos.before.length,photosAfter:S.photos.after.length,notes:job.notes});
+
+      const tot = S.photos.before.length + S.photos.after.length;
+      let up = 0;
+      for(const p of S.photos.before){
+        setSyncStatus('uploading', `Subiendo fotos... ${++up}/${tot}`, 'Fotos ANTES de la limpieza');
+        await uploadPhoto(p, S.me.name, ds, jobId, 'before');
+      }
+      for(const p of S.photos.after){
+        setSyncStatus('uploading', `Subiendo fotos... ${++up}/${tot}`, 'Fotos DESPUÉS de la limpieza');
+        await uploadPhoto(p, S.me.name, ds, jobId, 'after');
+      }
+
+      job.synced = true; persist();
+      setSyncStatus('ok', '¡Guardado en Google Drive!', 'Registro y fotos subidos correctamente');
+      showSuccessPhotos(job);
+    } catch(e) {
+      setSyncStatus('warn', 'Guardado solo en este dispositivo', 'Drive no disponible — se sincronizará cuando haya conexión');
+    }
+  } else {
+    setSyncStatus('local', 'Guardado localmente', 'Configura Google Drive para sincronizar entre dispositivos');
+  }
+}
+
+function showSuccessScreen(job) {
+  // Rellenar contenido ANTES de mostrar la pantalla
+  document.getElementById('succ-title').textContent    = '¡Trabajo guardado!';
+  document.getElementById('succ-subtitle').textContent = `${job.obra} · ${job.start}`;
+  document.getElementById('succ-summary').innerHTML = `
+    <div style="display:flex;align-items:center;gap:10px;">
+      <span style="font-size:1.2rem">🏗️</span>
+      <div><div style="font-size:0.88rem;font-weight:700;color:var(--card);">${job.obra}</div><div style="font-size:0.72rem;color:rgba(255,255,255,0.4);margin-top:2px;">${job.tipo}</div></div>
+    </div>
+    <div style="height:1px;background:rgba(255,255,255,0.08);"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;text-align:center;">
+      <div><div style="font-size:1.1rem;font-weight:700;color:var(--lime);">${job.start}</div><div style="font-size:0.62rem;color:rgba(255,255,255,0.35);margin-top:2px;text-transform:uppercase;letter-spacing:0.5px;">Hora</div></div>
+      <div><div style="font-size:1.1rem;font-weight:700;color:var(--lime);">${job.photosBefore.length + job.photosAfter.length}</div><div style="font-size:0.62rem;color:rgba(255,255,255,0.35);margin-top:2px;text-transform:uppercase;letter-spacing:0.5px;">Fotos</div></div>
+      <div><div style="font-size:1.1rem;font-weight:700;color:var(--lime);">${job.gps ? '✓' : '—'}</div><div style="font-size:0.62rem;color:rgba(255,255,255,0.35);margin-top:2px;text-transform:uppercase;letter-spacing:0.5px;">GPS</div></div>
+    </div>
+    ${job.notes ? `<div style="height:1px;background:rgba(255,255,255,0.08);"></div><div style="font-size:0.78rem;color:rgba(255,255,255,0.4);font-style:italic;">"${job.notes}"</div>` : ''}
+  `;
+  document.getElementById('succ-photos-box').style.display = 'none';
+  setSyncStatus('uploading', S.scriptUrl ? 'Sincronizando con Drive...' : 'Guardado en este dispositivo', S.scriptUrl ? 'Subiendo datos a Google Drive' : 'Configura Drive para sincronizar');
+
+  // Cambiar pantalla directamente (sin go() para evitar efectos secundarios)
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('s-success').classList.add('active');
+
+  // Relanzar animaciones
+  requestAnimationFrame(() => {
+    const circle = document.getElementById('succ-circle');
+    circle.style.animation = 'none';
+    requestAnimationFrame(() => { circle.style.animation = 'succPop .5s cubic-bezier(.22,.61,.36,1.4)'; });
+    const check = document.getElementById('succ-check');
+    check.style.strokeDashoffset = '40';
+    check.style.animation = 'none';
+    requestAnimationFrame(() => { check.style.animation = 'drawCheck .6s .3s ease forwards'; });
+  });
+}
+
+function setSyncStatus(state, title, sub) {
+  const icons = { uploading:'⏳', ok:'☁️', warn:'📱', local:'📱' };
+  const colors = { uploading:'rgba(200,241,53,0.08)', ok:'rgba(46,194,126,0.12)', warn:'rgba(255,107,53,0.12)', local:'rgba(255,255,255,0.05)' };
+  const borders = { uploading:'rgba(200,241,53,0.25)', ok:'rgba(46,194,126,0.3)', warn:'rgba(255,107,53,0.3)', local:'rgba(255,255,255,0.1)' };
+  const box = document.getElementById('succ-sync-box');
+  if (box) {
+    box.style.background = colors[state];
+    box.style.borderColor = borders[state];
+    document.getElementById('succ-sync-icon').textContent  = icons[state];
+    document.getElementById('succ-sync-title').textContent = title;
+    document.getElementById('succ-sync-sub').textContent   = sub;
+  }
+}
+
+function showSuccessPhotos(job) {
+  const all = [...job.photosBefore, ...job.photosAfter];
+  if (!all.length) return;
+  const box = document.getElementById('succ-photos-box');
+  const row = document.getElementById('succ-photos-row');
+  row.innerHTML = all.slice(0,4).map((src, i) => `
+    <div style="position:relative;flex:1;">
+      <img src="${src}" style="width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px;display:block;">
+      <div style="position:absolute;bottom:0;left:0;right:0;background:rgba(13,27,42,0.7);font-size:0.55rem;color:white;padding:3px 5px;border-radius:0 0 8px 8px;font-weight:700;text-transform:uppercase;">${i < job.photosBefore.length ? 'Antes' : 'Después'}</div>
+    </div>`).join('') + (all.length > 4 ? `<div style="flex:1;background:rgba(255,255,255,0.06);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:700;color:rgba(255,255,255,0.4);">+${all.length-4}</div>` : '');
+  box.style.display = 'block';
+}
+
+// ══════════════════════════════════════════════
+//  DRIVE API
+// ══════════════════════════════════════════════
+async function callScript(payload) {
+  const res = await fetch(S.scriptUrl, {method:'POST', body:JSON.stringify(payload)});
+  const data = await res.json();
+  if (data.status!=='ok') throw new Error(data.message);
+  return data;
+}
+async function uploadPhoto(p, worker, date, jobId, type) {
+  return callScript({action:'uploadPhoto',base64:p.data,mimeType:p.mime,filename:p.name||`foto.jpg`,worker,date,jobId:String(jobId),type});
+}
+function showSaving(m){document.getElementById('saving-msg').textContent=m;document.getElementById('saving-ov').classList.add('show');}
+function setSavingMsg(m){document.getElementById('saving-msg').textContent=m;}
+function hideSaving(){document.getElementById('saving-ov').classList.remove('show');}
+function saveScriptUrl(){const v=document.getElementById('admin-script-url').value.trim();if(!v)return;S.scriptUrl=v;persist();toast('✓ URL de Drive guardada — sincronizando trabajos pendientes...');refreshAdmin();setTimeout(processSyncQueue,1000);}
+
+// ══════════════════════════════════════════════
+//  MANAGER
+// ══════════════════════════════════════════════
+function refreshMgr() {
+  const today = nowDate();
+  document.getElementById('mgr-kpis').innerHTML=`
+    <div class="kpi-box"><div class="kn">${S.jobs.length}</div><div class="kl">Total</div></div>
+    <div class="kpi-box"><div class="kn g">${S.jobs.filter(j=>j.date===today).length}</div><div class="kl">Hoy</div></div>
+    <div class="kpi-box"><div class="kn o">${S.workers.length}</div><div class="kl">Operarios</div></div>`;
+  renderMgrWorkers(S.jobs);
+}
+function mgrFilter(p,el){
+  document.querySelectorAll('#mgr-chips .chip').forEach(c=>c.classList.remove('active')); el.classList.add('active');
+  const today=nowDate();
+  let f=S.jobs;
+  if(p==='today') f=S.jobs.filter(j=>j.date===today);
+  if(p==='week')  f=S.jobs.filter(j=>j.date>=daysAgo(7));
+  if(p==='month') f=S.jobs.filter(j=>j.date>=daysAgo(30));
+  document.getElementById('mgr-kpis').innerHTML=`
+    <div class="kpi-box"><div class="kn">${f.length}</div><div class="kl">Trabajos</div></div>
+    <div class="kpi-box"><div class="kn g">${new Set(f.map(j=>j.date)).size}</div><div class="kl">Días activos</div></div>
+    <div class="kpi-box"><div class="kn o">${S.workers.length}</div><div class="kl">Operarios</div></div>`;
+  renderMgrWorkers(f);
+}
+function renderMgrWorkers(jobs){
+  const today=nowDate();
+  document.getElementById('mgr-workers').innerHTML=S.workers.map(w=>{
+    const t=jobs.filter(j=>j.worker===w.name).length, td=jobs.filter(j=>j.worker===w.name&&j.date===today).length;
+    return `<div class="wrow" onclick="openReport('${w.name}')"><div class="wavatar">${ini(w.name)}</div><div class="winfo"><h4>${w.name}</h4><p>${t} trabajos · ${td} hoy</p></div><span class="wpill">${td} hoy</span></div>`;
+  }).join('')||`<div class="empty-state"><div class="es-ico">👷</div><p>Sin operarios</p></div>`;
+}
+
+// ══════════════════════════════════════════════
+//  REPORT
+// ══════════════════════════════════════════════
+function openReport(w){S.rptWorker=w;S.rptPeriod='day';document.querySelectorAll('.pbtn').forEach(b=>b.classList.remove('active'));document.querySelector('.pbtn').classList.add('active');document.getElementById('rpt-name').textContent=w;renderReport();go('s-report');}
+function setPeriod(p,el){S.rptPeriod=p;document.querySelectorAll('.pbtn').forEach(b=>b.classList.remove('active'));el.classList.add('active');renderReport();}
+function filteredJobs(){
+  const j=S.jobs.filter(j=>j.worker===S.rptWorker).sort((a,b)=>b.date.localeCompare(a.date));
+  const today=nowDate();
+  if(S.rptPeriod==='day')   return j.filter(x=>x.date===today);
+  if(S.rptPeriod==='week')  return j.filter(x=>x.date>=daysAgo(7));
+  if(S.rptPeriod==='month') return j.filter(x=>x.date>=daysAgo(30));
+  if(S.rptPeriod==='year')  return j.filter(x=>x.date>=daysAgo(365));
+  return j;
+}
+function calcH(jobs){let m=0;jobs.forEach(j=>{if(j.start&&j.end&&j.end!=='--:--'){const[sh,sm]=j.start.split(':').map(Number),[eh,em]=j.end.split(':').map(Number);m+=(eh*60+em)-(sh*60+sm);}});return(m/60).toFixed(1);}
+function renderReport(){
+  const jobs=filteredJobs(),photos=jobs.reduce((s,j)=>s+j.photosBefore.length+j.photosAfter.length,0);
+  const lbl={day:'Hoy',week:'Esta semana',month:'Este mes',year:'Este año'};
+  document.getElementById('rpt-sub').textContent=`${lbl[S.rptPeriod]} · ${jobs.length} trabajos`;
+  document.getElementById('rs-jobs').textContent=jobs.length;
+  document.getElementById('rs-hours').textContent=calcH(jobs)+'h';
+  document.getElementById('rs-photos').textContent=photos;
+  document.getElementById('rpt-list').innerHTML=jobs.length===0
+    ?`<div class="empty-state"><div class="es-ico">📋</div><p>Sin trabajos en este período</p></div>`
+    :jobs.map(j=>`
+      <div class="jdc">
+        <div class="jdc-top"><div><h4>${j.obra}</h4><p>${fmtDate(j.date)} · ${j.start}</p></div><span class="badge ${j.synced?'badge-sync':'badge-local'}">${j.synced?'☁ Drive':'📱 Local'}</span></div>
+        <div class="jdc-body">
+          <div class="jdc-tags"><span class="jtag">🧹 ${j.tipo}</span><span class="jtag">⏱ ${j.start}–${j.end}</span>${j.photosBefore.length?`<span class="jtag">📷 ${j.photosBefore.length}+${j.photosAfter.length}</span>`:''}</div>
+          ${(j.photosBefore.length||j.photosAfter.length)?`<div class="jdc-photos">${j.photosBefore.slice(0,1).map(p=>`<div class="jdp-wrap"><img src="${p}"><div class="jdp-lbl">Antes</div></div>`).join('')}${j.photosAfter.slice(0,1).map(p=>`<div class="jdp-wrap"><img src="${p}"><div class="jdp-lbl">Después</div></div>`).join('')}</div>`:''}
+          ${j.gps?`<div class="jdc-gps">📍 ${j.gps.lat.toFixed(5)}, ${j.gps.lng.toFixed(5)} <a href="https://maps.google.com/?q=${j.gps.lat},${j.gps.lng}" target="_blank" style="color:var(--lime-dim);font-weight:700;text-decoration:none;margin-left:4px;">Ver →</a></div>`:''}
+          ${j.notes?`<div class="jdc-notes">💬 ${j.notes}</div>`:''}
+        </div>
+      </div>`).join('');
+}
+
+// ══════════════════════════════════════════════
+//  EXPORT
+// ══════════════════════════════════════════════
+function expCSV(){
+  const jobs=filteredJobs();
+  const lbl={day:'hoy',week:'semana',month:'mes',year:'año'};
+  const rows=[['Fecha','Hora','Trabajador','Obra','Tipo','GPS Lat','GPS Lng','Mapa','Fotos Antes','Fotos Despues','Drive','Observaciones']];
+  jobs.forEach(j=>rows.push([j.date,j.start,j.worker,j.obra,j.tipo,j.gps?.lat?.toFixed(5)||'',j.gps?.lng?.toFixed(5)||'',j.gps?`https://maps.google.com/?q=${j.gps.lat},${j.gps.lng}`:'',j.photosBefore.length,j.photosAfter.length,j.synced?'Sí':'Local',(j.notes||'').replace(/,/g,' ')]));
+  dlFile('\uFEFF'+rows.map(r=>r.map(c=>`"${c}"`).join(',')).join('\n'),`almaservices_${S.rptWorker.replace(' ','_')}_${lbl[S.rptPeriod]}.csv`,'text/csv');
+  toast('📄 CSV listo');
+}
+function expHTML(){
+  const jobs=filteredJobs();
+  const lbl={day:'Hoy',week:'Esta semana',month:'Este mes',year:'Este año'};
+  const html=`<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><title>Informe Almaservices</title><style>body{font-family:Arial,sans-serif;max-width:900px;margin:40px auto;padding:0 24px;color:#1a1a2e;}h1{color:#0D1B2A;border-bottom:3px solid #C8F135;padding-bottom:10px;}table{width:100%;border-collapse:collapse;font-size:0.82rem;margin-top:20px;}th{background:#0D1B2A;color:#C8F135;padding:10px 12px;text-align:left;}td{padding:9px 12px;border-bottom:1px solid #e4e0d8;}tr:nth-child(even) td{background:#fafaf7;}a{color:#A8D020;}</style></head><body><h1>Informe · ${S.rptWorker} · ${lbl[S.rptPeriod]}</h1><p style="color:#888;font-size:0.8rem;">Generado ${new Date().toLocaleString('es-ES')} · ${jobs.length} trabajos · ${calcH(jobs)}h</p><table><tr><th>Fecha</th><th>Hora</th><th>Obra</th><th>Tipo</th><th>GPS</th><th>Fotos</th><th>Observaciones</th></tr>${jobs.map(j=>`<tr><td>${j.date}</td><td>${j.start}</td><td><strong>${j.obra}</strong></td><td>${j.tipo}</td><td>${j.gps?`<a href="https://maps.google.com/?q=${j.gps.lat},${j.gps.lng}" target="_blank">📍 Ver</a>`:'—'}</td><td>🖼 ${j.photosBefore.length}+${j.photosAfter.length}</td><td>${j.notes||'—'}</td></tr>`).join('')}</table></body></html>`;
+
+dlFile(html,`informe_${S.rptWorker.replace(' ','_')}.html`,‘text/html’);
+toast(‘☁️ Informe listo — sube a Google Drive’);
+}
+function dlFile(c,n,t){const a=document.createElement(‘a’);a.href=URL.createObjectURL(new Blob([c],{type:t}));a.download=n;document.body.appendChild(a);a.click();document.body.removeChild(a);}
+
+// ══════════════════════════════════════════════
+//  ADMIN
+// ══════════════════════════════════════════════
+function refreshAdmin(){
+if(S.scriptUrl) document.getElementById(‘admin-script-url’).value=S.scriptUrl;
+document.getElementById(‘admin-conn-status’).textContent = S.scriptUrl ? ‘✓ Drive configurado: ‘+S.scriptUrl.slice(0,42)+’…’ : ‘⚠️ Sin configurar’;
+
+document.getElementById(‘admin-workers-list’).innerHTML = S.workers.map((w,i)=>` <div class="wadmin-item"> <div class="wa-avatar">${ini(w.name)}</div> <div class="wa-info"> <div class="wa-name">${w.name}</div> <div class="wa-dob">🪪 ${w.dob||'Sin DNI registrado'}</div> </div> <div class="wa-actions"> <span class="wa-pin-badge">${w.pin===DEFAULT_PIN?'PIN defecto':'PIN ✓'}</span> <button class="wa-reset-btn" onclick="adminResetPin(${i})">Reset</button> <button class="del-btn" onclick="delWorker(${i})">🗑</button> </div> </div>`).join(’’) || ‘<div style="color:var(--muted);font-size:0.82rem;padding:8px 0">Sin operarios</div>’;
+
+document.getElementById(‘obras-list’).innerHTML = S.obras.length===0
+? ‘<div style="color:var(--muted);font-size:0.82rem;padding:8px 0">Sin obras</div>’
+: S.obras.map((o,i)=>`<div class="obra-item"><div class="obra-name">${o}</div><button class="del-btn" onclick="delObra(${i})">🗑</button></div>`).join(’’);
+}
+
+function adminResetPin(i){
+if (!confirm(`¿Resetear PIN de ${S.workers[i].name} a 1234?`)) return;
+S.workers[i].pin = DEFAULT_PIN; persist(); refreshAdmin();
+pushPinToServer(‘worker’, DEFAULT_PIN, S.workers[i].name, S.workers[i].dob);
+toast(`✓ PIN de ${S.workers[i].name} reseteado a 1234`);
+}
+function toggleAddWorkerForm(){const f=document.getElementById(‘add-worker-form’);f.classList.toggle(‘open’);}
+function addWorkerAdmin(){
+const name=document.getElementById(‘aw-name’).value.trim();
+const dob =document.getElementById(‘aw-dob’).value;
+const pin =document.getElementById(‘aw-pin’).value.trim()||DEFAULT_PIN;
+if(!name||!dob){toast(‘⚠️ Nombre y DNI son obligatorios’);return;}
+if(!/^\d{4}$/.test(pin)){toast(‘⚠️ El PIN debe tener exactamente 4 dígitos’);return;}
+if(S.workers.find(x=>x.name===name)){toast(‘⚠️ Ya existe un operario con ese nombre’);return;}
+S.workers.push({name,dob,pin});persist();
+pushNewWorkerToServer({name,dob,pin});
+document.getElementById(‘aw-name’).value=’’;document.getElementById(‘aw-dob’).value=’’;document.getElementById(‘aw-pin’).value=’’;
+document.getElementById(‘add-worker-form’).classList.remove(‘open’);
+refreshAdmin();toast(‘✓ Operario añadido’);
+}
+function delWorker(i){if(!confirm(`¿Eliminar a ${S.workers[i].name}?`))return;S.workers.splice(i,1);persist();refreshAdmin();}
+function addObra(){const v=document.getElementById(‘no-name’).value.trim();if(!v)return;if(!S.obras.includes(v)){S.obras.push(v);persist();}document.getElementById(‘no-name’).value=’’;refreshAdmin();toast(‘🏗️ Obra añadida’);}
+function delObra(i){if(!confirm(`¿Eliminar "${S.obras[i]}"?`))return;S.obras.splice(i,1);persist();refreshAdmin();}
+function clearAllData(){if(!confirm(’¿Borrar TODOS los datos locales?’))return;localStorage.clear();location.reload();}
+
+// ══════════════════════════════════════════════
+//  UTILS
+// ══════════════════════════════════════════════
+function ini(n){return n.split(’ ‘).slice(0,2).map(x=>x[0]).join(’’).toUpperCase();}
+function nowDate(){return new Date().toISOString().split(‘T’)[0];}
+function daysAgo(n){const d=new Date();d.setDate(d.getDate()-n);return d.toISOString().split(‘T’)[0];}
+function fmtDate(s){return new Date(s+‘T12:00:00’).toLocaleDateString(‘es-ES’,{weekday:‘short’,day:‘numeric’,month:‘short’});}
+function toast(msg){document.getElementById(‘tmsg’).textContent=msg;const t=document.getElementById(‘toast’);t.classList.add(‘show’);setTimeout(()=>t.classList.remove(‘show’),3200);}
+</script>
+
+</body>
+</html>
